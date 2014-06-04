@@ -1,53 +1,25 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
-#   Copyright © 2010 Jon Bernard. All Rights Reserved.
-#
-#   This program is free software: you can redistribute it and/or modify it
-#   under the terms of the GNU General Public License as published by the Free
-#   Software Foundation, either version 3 of the License, or (at your option)
-#   any later version.
-#
-#   This program is distributed in the hope that it will be useful, but WITHOUT
-#   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-#   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-#   more details.
-#
-#   You should have received a copy of the GNU General Public License along
-#   with this program.  If not, see <http://www.gnu.org/licenses/>.
+import bs4
+import requests
 
-from urllib2 import urlopen
-from HTMLParser import HTMLParser
 
-Architectures = [ 'i386', 'm86k', 'sparc', 'alpha', 'powerpc', 'arm', 'armel',
-        'mips', 'mipsel', 'hppa', 'ia64', 's390', 'amd64', 'arm/armv5tel']
+machines_url = 'https://db.debian.org/machines.cgi'
 
-class PorterBoxParser(HTMLParser):
+response = requests.get(machines_url)
+soup = bs4.BeautifulSoup(response.text)
 
-    machine_entry_found = False
-    machine_name_found = False
-    machine_name = ''
-    machine_arch = ''
+machine_entries = soup.find_all('tr')
 
-    def __init__(self, url):
-        HTMLParser.__init__(self)
-        self.feed(urlopen(url).read())
+for machine_entry in machine_entries:
+    machine_data = machine_entry.find_all('td')
+    try:
+        purpose = machine_data[3].text.strip()
+        if purpose == 'porterbox':
+            hostname = machine_data[0].text.strip()
+            architecture = machine_data[1].text.strip()
+            print('%-18s %s' % (architecture, hostname))
 
-    def handle_starttag(self, tag, attrs):
-        if tag == 'tr' and not self.machine_entry_found:
-            self.machine_entry_found = True
-        elif tag == 'a' and self.machine_entry_found:
-            self.machine_name_found = True
-            self.machine_entry_found = False
-
-    def handle_data(self, data):
-        if self.machine_name_found:
-            self.machine_name = data
-            self.machine_name_found = False
-        elif data in Architectures:
-            self.machine_arch = data
-        elif data == 'porterbox':
-            print "%s (%s)" % (self.machine_name, self.machine_arch)
-
-if __name__ == '__main__':
-    PorterBoxParser('http://db.debian.org/machines.cgi')
+    except IndexError:
+        # malformed entry, skip it
+        pass
