@@ -15,10 +15,13 @@ for machine_entry in machine_entries:
     machine_data = machine_entry.find_all('td')
     try:
         purpose = machine_data[3].text.strip()
+        access = machine_data[5].text.strip()
         if purpose == 'porterbox':
             hostname = machine_data[0].text.strip()
             architecture = machine_data[1].text.strip()
-            print('%-18s %s' % (architecture, hostname))
+            if access == "":
+                access = "[unknown]"
+            print('%-18s %-24s %s' % (architecture, hostname, access))
 
     except IndexError:
         # malformed entry, skip it
