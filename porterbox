@@ -4,6 +4,7 @@ import bs4
 import requests
 
 
+machine_count = 0
 machines_url = 'https://db.debian.org/machines.cgi'
 
 response = requests.get(machines_url)
@@ -24,8 +25,11 @@ for machine_entry in machine_entries:
             architecture = machine_data[1].text.strip()
             if access == "":
                 access = "[unknown]"
+            machine_count += 1
             print('%-18s %-24s %s' % (architecture, hostname, access))
 
     except IndexError:
         # malformed entry, skip it
         pass
+
+print("\nFound %d machines" % (machine_count))
