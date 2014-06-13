@@ -11,6 +11,9 @@ soup = bs4.BeautifulSoup(response.text)
 
 machine_entries = soup.find_all('tr')
 
+print('%-18s %-24s %s' % ("Architecture", "Hostname", "Access"))
+print('-' * 68)
+
 for machine_entry in machine_entries:
     machine_data = machine_entry.find_all('td')
     try:
