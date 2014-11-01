@@ -7,6 +7,7 @@ The output looks similar to:
     Architecture       Hostname                 Access
     --------------------------------------------------------------------
     armel              abel.debian.org          public
+    armhf              asachi.debian.org        public
     kfreebsd-amd64     asdfasdf.debian.net      public (non-DSA-machine)
     amd64              barriere.debian.org      restricted
     mipsel             eder.debian.org          public
@@ -24,10 +25,11 @@ The output looks similar to:
     sparc              smetana.debian.org       public
     hurd-i386          strauss.debian.net       public (non-DSA-machine)
     sh4                sumotsu.debian.net       public (non-DSA-machine)
+    armhf              turfan.debian.net        public (non-DSA-machine)
     avr32              xoothais.err.no          public (non-DSA-machine)
     s390x              zelenka.debian.org       public
 
-    Found 20 machines
+    Found 22 machines
 
 ## Installation
 
