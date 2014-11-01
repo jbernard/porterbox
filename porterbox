@@ -20,7 +20,7 @@ for machine_entry in machine_entries:
     try:
         purpose = machine_data[3].text.strip()
         access = machine_data[5].text.strip()
-        if purpose == 'porterbox':
+        if 'porterbox' in purpose:
             hostname = machine_data[0].text.strip()
             architecture = machine_data[1].text.strip()
             if access == "":
