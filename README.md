@@ -36,7 +36,7 @@ The output looks similar to:
 You can use pip directly from the cloned repository:
 
     $ cd porterbox
-    $ pip install -r requriements.txt
+    $ pip install -r requirements.txt
     $ pip install . (or run the script directly)
 
 Or you can create a virtualenv and install there (make sure `python-virtualenv`
@@ -45,5 +45,5 @@ is installed):
     $ cd porterbox
     $ virtualenv .venv
     $ . .venv/bin/activate
-    $ pip install -r requriements.txt
+    $ pip install -r requirements.txt
     $ pip install . (or run the script directly)
